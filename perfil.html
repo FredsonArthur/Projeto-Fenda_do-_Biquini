@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Morador - Fenda do Biquíni</title>
+    <link rel="stylesheet" href="loginstyle.css">
+    <style>
+        /* Reintroduzindo o estilo do avatar que foi removido do loginstyle.css */
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+            background-color: #ffd700;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .profile-info { 
+            margin-top: 20px; 
+            color: #3e2b1b; 
+            line-height: 1.6; 
+            text-align: left;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .btn-logout { 
+            margin-top: 25px; 
+            background: #c62828; 
+            border-bottom: 4px solid #8b1d1d; 
+        }
+
+        .btn-logout:hover {
+            background: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <img id="profile-img" src="" alt="Foto do Morador" class="avatar">
+            
+            <h2 id="welcome-msg">Bem-vindo!</h2>
+            
+            <div class="profile-info">
+                <p><strong>Nome:</strong> <span id="display-name"></span></p>
+                <p><strong>Profissão:</strong> <span id="display-job"></span></p>
+            </div>
+
+            <button onclick="sair()" class="btn btn-logout">Sair da Fenda</button>
+        </div>
+        
+        <div class="bubbles"></div>
+    </div>
+
+    <script>
+        // 1. Busca os dados que o loginscript.js salvou no LocalStorage
+        const dadosUsuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+        // 2. Verifica se existe uma sessão ativa. Se não, expulsa para o login
+        if (!dadosUsuario) {
+            window.location.href = 'login.html';
+        } else {
+            // 3. Preenche a página com os dados vindos do arquivo dados.js
+            const imgElement = document.getElementById('profile-img');
+            
+            // Define a foto e garante um fallback caso o caminho esteja errado
+            imgElement.src = dadosUsuario.foto;
+            imgElement.onerror = function() {
+                this.src = 'https://via.placeholder.com/150/FFD700/3e2b1b?text=Morador';
+            };
+
+            document.getElementById('display-name').textContent = dadosUsuario.nome;
+            document.getElementById('display-job').textContent = dadosUsuario.profissao;
+            
+            // Pega apenas o primeiro nome para uma saudação mais amigável
+            const primeiroNome = dadosUsuario.nome.split(' ')[0];
+            document.getElementById('welcome-msg').textContent = `Olá, ${primeiroNome}!`;
+        }
+
+        // Função para encerrar a sessão
+        function sair() {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

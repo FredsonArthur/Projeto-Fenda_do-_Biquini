@@ -19,12 +19,12 @@ const imgFundoCadastro = "url('assets/fundo-cadastro.jpg')";
 
 // Trocar para a tela de Cadastro
 showRegisterLink.addEventListener('click', function(event) {
-    event.preventDefault(); // Impede o link de recarregar a página
+    event.preventDefault(); 
     loginArea.style.display = 'none';
     registerArea.style.display = 'block';
-    messageEl.textContent = ''; // Limpa mensagens anteriores
+    messageEl.textContent = ''; 
     
-    // Troca o fundo para o cenário de cadastro (Fenda de longe)
+    // Troca o fundo para o cenário de cadastro
     document.body.style.backgroundImage = imgFundoCadastro;
 });
 
@@ -33,28 +33,39 @@ showLoginLink.addEventListener('click', function(event) {
     event.preventDefault();
     registerArea.style.display = 'none';
     loginArea.style.display = 'block';
-    messageEl.textContent = ''; // Limpa mensagens anteriores
+    messageEl.textContent = ''; 
     
-    // Troca o fundo de volta para o cenário de login (Fenda de perto)
+    // Retorna o fundo para o cenário de login
     document.body.style.backgroundImage = imgFundoLogin;
 });
 
-// --- LÓGICA DE SUBMISSÃO (LOGIN) ---
+// --- LÓGICA DE SUBMISSÃO (LOGIN COM PERFIS) ---
 
 loginForm.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    // Captura os valores digitados e normaliza o nome para minúsculo
+    const usernameInput = document.getElementById('username').value.toLowerCase();
+    const passwordInput = document.getElementById('password').value;
 
-    // Credenciais fixas para teste
-    if (username === 'bob' && password === 'esponja') {
-        messageEl.style.color = '#2e7d32'; // Verde
-        messageEl.textContent = 'Login bem-sucedido! Bem-vindo à Fenda do Biquini.';
-        // Futuro: window.location.href = 'bemvindo.html';
+    // Busca o morador dentro do objeto carregado pelo arquivo dados.js
+    const morador = moradoresFenda[usernameInput];
+
+    // Validação de segurança: verifica se o usuário existe e se a senha coincide
+    if (morador && morador.senha === passwordInput) {
+        messageEl.style.color = '#2e7d32'; // Verde para sucesso
+        messageEl.textContent = `Bem-vindo, ${morador.nome}! Entrando na Fenda...`;
+
+        // ARMAZENAMENTO: Salva os dados do morador para serem recuperados no perfil.html
+        localStorage.setItem('usuarioLogado', JSON.stringify(morador));
+
+        // Redireciona para a página única de perfil após um pequeno delay para a mensagem ser lida
+        setTimeout(() => {
+            window.location.href = 'perfil.html';
+        }, 1200);
     } else {
-        messageEl.style.color = '#c62828'; // Vermelho
-        messageEl.textContent = 'Usuário ou senha incorretos. Tente "bob" e "esponja".';
+        messageEl.style.color = '#c62828'; // Vermelho para erro
+        messageEl.textContent = 'Nome ou senha incorretos. Tente novamente!';
     }
 });
 
@@ -62,21 +73,17 @@ loginForm.addEventListener('submit', function(event) {
 
 registerForm.addEventListener('submit', function(event) {
     event.preventDefault();
-
     const regUsername = document.getElementById('reg-username').value;
-    const regPassword = document.getElementById('reg-password').value;
-
-    // Simulação de cadastro
-    if (regUsername && regPassword) {
+    
+    if (regUsername) {
         messageEl.style.color = '#2e7d32';
         messageEl.textContent = `Morador ${regUsername} cadastrado com sucesso!`;
         
-        // Volta para o login automaticamente após 2 segundos
+        // Simula o processamento e volta para a tela de login
         setTimeout(() => {
             registerArea.style.display = 'none';
             loginArea.style.display = 'block';
-            messageEl.textContent = 'Agora faça login com sua nova conta.';
-            // Retorna o fundo para o modo de login
+            messageEl.textContent = 'Agora faça login com sua conta.';
             document.body.style.backgroundImage = imgFundoLogin;
         }, 2000);
     }
