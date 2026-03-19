@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fenda do Biquini - Login</title>
+    <link rel="stylesheet" href="loginstyle.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <img src="https://via.placeholder.com/150/FFD700/000000?text=Bob+Esponja" alt="Bob Esponja" class="avatar">
+            
+            <div id="login-area">
+                <h2>Entre na Fenda do Biquini</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="username">Nome de usuário:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Senha:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn">Entrar</button>
+                </form>
+                <p class="toggle-text">Não tem um crachá? <a href="#" id="show-register">Cadastre-se</a></p>
+            </div>
+
+            <div id="register-area" style="display: none;">
+                <h2>Novo Morador</h2>
+                <form id="registerForm">
+                    <div class="input-group">
+                        <label for="reg-username">Escolha seu nome:</label>
+                        <input type="text" id="reg-username" name="reg-username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="reg-password">Crie uma senha:</label>
+                        <input type="password" id="reg-password" name="reg-password" required>
+                    </div>
+                    <button type="submit" class="btn">Criar Conta</button>
+                </form>
+                <p class="toggle-text">Já é de casa? <a href="#" id="show-login">Voltar ao Login</a></p>
+            </div>
+
+            <p id="message"></p>
+        </div>
+        
+        <div class="bubbles"></div>
+    </div>
+
+    <script src="loginscript.js"></script>
+</body>
+</html>
