@@ -11,7 +11,11 @@ const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
 const messageEl = document.getElementById('message');
 
-// --- LÓGICA DE ALTERNÂNCIA (TROCA DE TELAS) ---
+// Caminhos para as imagens de fundo na pasta assets
+const imgFundoLogin = "url('assets/fundo-login.jpg')";
+const imgFundoCadastro = "url('assets/fundo-cadastro.jpg')";
+
+// --- LÓGICA DE ALTERNÂNCIA (TROCA DE TELAS E FUNDOS) ---
 
 // Trocar para a tela de Cadastro
 showRegisterLink.addEventListener('click', function(event) {
@@ -19,6 +23,9 @@ showRegisterLink.addEventListener('click', function(event) {
     loginArea.style.display = 'none';
     registerArea.style.display = 'block';
     messageEl.textContent = ''; // Limpa mensagens anteriores
+    
+    // Troca o fundo para o cenário de cadastro (Fenda de longe)
+    document.body.style.backgroundImage = imgFundoCadastro;
 });
 
 // Trocar para a tela de Login
@@ -27,6 +34,9 @@ showLoginLink.addEventListener('click', function(event) {
     registerArea.style.display = 'none';
     loginArea.style.display = 'block';
     messageEl.textContent = ''; // Limpa mensagens anteriores
+    
+    // Troca o fundo de volta para o cenário de login (Fenda de perto)
+    document.body.style.backgroundImage = imgFundoLogin;
 });
 
 // --- LÓGICA DE SUBMISSÃO (LOGIN) ---
@@ -61,11 +71,13 @@ registerForm.addEventListener('submit', function(event) {
         messageEl.style.color = '#2e7d32';
         messageEl.textContent = `Morador ${regUsername} cadastrado com sucesso!`;
         
-        // Opcional: Voltar para o login automaticamente após 2 segundos
+        // Volta para o login automaticamente após 2 segundos
         setTimeout(() => {
             registerArea.style.display = 'none';
             loginArea.style.display = 'block';
             messageEl.textContent = 'Agora faça login com sua nova conta.';
+            // Retorna o fundo para o modo de login
+            document.body.style.backgroundImage = imgFundoLogin;
         }, 2000);
     }
 });
